@@ -1,0 +1,95 @@
+﻿
+@model List<WingTipProductCalatog.Models.Product>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#SearchProducts").click(function () {
+            if ($("#txtSearch").val().trim().length < 2) {
+                alert("Please enter at least two characters for Search");
+                return false;
+            }
+        });
+    });
+</script>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Product Catalog</h2>
+
+
+<div>
+    <table width="100%">
+        <tr>
+            <td>
+                <div class="text-center">
+
+                    @using (Html.BeginForm("Index", "Products", FormMethod.Post))
+                    {<div class="text-center">
+                            @Html.TextBox("txtSearch", null, new { @class = "form-control", @id = "txtSearch", style = "width:200px" })
+                        </div>
+                        <div class="text-left">
+                            <input id="SearchProducts" type="submit" value="Search" />
+                        </div>
+                        for (int i = 0; i < Model.Count(); i++)
+                        {
+                            @Html.HiddenFor(model => Model[i].ProductID)
+                        }
+
+                    }
+                </div>
+            </td>
+            <td align="center">
+                <div>
+                    <img src="~/Assets/logo.jpg" width="300" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align="center">
+                <table class="table col-sm-7 col-md-offset-0" border="1">
+                    <tr>
+                        <th width="20%">
+                            Product Name
+                        </th>
+
+                        <th width="20%">
+                            Unit Price
+                        </th>
+                        <th>
+                            Image
+                        </th>
+
+
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+
+                        @*@Html.HiddenFor(modelItem => item.ProductID)*@
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                            </td>
+                            <td align="center">
+                                <div>
+                                    <img src="~/Assets/@item.ImagePath" alt="@item.ProductName" width="120" />
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
